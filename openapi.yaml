@@ -1,0 +1,525 @@
+# Creating a complete Swagger (OpenAPI) specification for managing airlines, airports, and flights
+
+openapi: 3.0.1
+info:
+  title: Trip Builder API
+  description: A back-end application for managing airlines, airports, flights, and trips.
+  version: 1.0.0
+
+paths:
+  /api/airlines:
+    get:
+      summary: List all airlines
+      responses:
+        '200':
+          description: A list of airlines
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Airline'
+    post:
+    
+      summary: Create a new airline
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewAirline'
+      responses:
+        '201':
+          description: Airline created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Airline'
+  /api/airlines/{id}:
+    put:
+      summary: Update an airline
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateAirline'
+      responses:
+        '200':
+          description: Airline updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Airline'
+    delete:
+      summary: Delete an airline
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Airline deleted
+
+  /api/airports:
+    get:
+      summary: List all airports
+      responses:
+        '200':
+          description: A list of airports
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Airport'
+    post:
+      summary: Create a new airport
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewAirport'
+      responses:
+        '201':
+          description: Airport created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Airport'
+  /api/airports/{id}:
+    put:
+      summary: Update an airport
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateAirport'
+      responses:
+        '200':
+          description: Airport updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Airport'
+    delete:
+      summary: Delete an airport
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Airport deleted
+
+  /api/flights:
+    get:
+      summary: List all flights
+      responses:
+        '200':
+          description: A list of flights
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Flight'
+    post:
+      summary: Create a new flight
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewFlight'
+      responses:
+        '201':
+          description: Flight created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Flight'
+  /api/flights/{id}:
+    put:
+      summary: Update a flight
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateFlight'
+      responses:
+        '200':
+          description: Flight updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Flight'
+    delete:
+      summary: Delete a flight
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Flight deleted
+  schemas:
+    Airline:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: Air Canada
+        iata_code:
+          type: string
+          example: AC
+
+    NewAirline:
+      type: object
+      required:
+        - name
+        - iata_code
+      properties:
+        name:
+          type: string
+          example: Air Canada
+        iata_code:
+          type: string
+          example: AC
+
+    UpdateAirline:
+      type: object
+      required:
+        - name
+        - iata_code
+      properties:
+        name:
+          type: string
+          example: Updated Airline
+        iata_code:
+          type: string
+          example: UA
+
+    Airport:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: Pierre Elliott Trudeau International
+        iata_code:
+          type: string
+          example: YUL
+        city:
+          type: string
+          example: Montreal
+        latitude:
+          type: number
+          format: float
+          example: 45.4706
+        longitude:
+          type: number
+          format: float
+          example: -73.7408
+        timezone:
+          type: string
+          example: America/Toronto
+        city_code:
+          type: string
+          example: YMQ
+
+    NewAirport:
+      type: object
+      required:
+        - name
+        - iata_code
+        - city
+        - latitude
+        - longitude
+        - timezone
+        - city_code
+      properties:
+        name:
+          type: string
+          example: Pierre Elliott Trudeau International
+        iata_code:
+          type: string
+          example: YUL
+        city:
+          type: string
+          example: Montreal
+        latitude:
+          type: number
+          format: float
+          example: 45.4706
+        longitude:
+          type: number
+          format: float
+          example: -73.7408
+        timezone:
+          type: string
+          example: America/Toronto
+        city_code:
+          type: string
+          example: YMQ
+
+    UpdateAirport:
+      type: object
+      required:
+        - name
+        - iata_code
+        - city
+        - latitude
+        - longitude
+        - timezone
+        - city_code
+      properties:
+        name:
+          type: string
+          example: Updated Airport
+        iata_code:
+          type: string
+          example: UA
+        city:
+          type: string
+          example: Updated City
+        latitude:
+          type: number
+          format: float
+          example: 46.0
+        longitude:
+          type: number
+          format: float
+          example: -74.0
+        timezone:
+          type: string
+          example: America/New_York
+        city_code:
+          type: string
+          example: YUP
+
+    Flight:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        airline_id:
+          type: integer
+          example: 1
+        flight_number:
+          type: string
+          example: AC301
+        departure_airport_id:
+          type: integer
+          example: 1
+        arrival_airport_id:
+          type: integer
+          example: 2
+        departure_time:
+          type: string
+          example: 07:35
+        arrival_time:
+          type: string
+          example: 10:05
+        price:
+          type: number
+          format: float
+          example: 200.00
+
+    NewFlight:
+      type: object
+      required:
+        - airline_id
+        - flight_number
+        - departure_airport_id
+        - arrival_airport_id
+        - departure_time
+        - arrival_time
+        - price
+      properties:
+        airline_id:
+          type: integer
+          example: 1
+        flight_number:
+          type: string
+          example: AC301
+        departure_airport_id:
+          type: integer
+          example: 1
+        arrival_airport_id:
+          type: integer
+          example: 2
+        departure_time:
+          type: string
+          example: 07:35
+        arrival_time:
+          type: string
+          example: 10:05
+        price:
+          type: number
+          format: float
+          example: 200.00
+
+    UpdateFlight:
+      type: object
+      required:
+        - airline_id
+        - flight_number
+        - departure_airport_id
+        - arrival_airport_id
+        - departure_time
+        - arrival_time
+        - price
+      properties:
+        airline_id:
+          type: integer
+          example: 1
+        flight_number:
+          type: string
+          example: AC302
+          
+  
+  /api/trips/{id}:
+    put:
+      summary: Update a trip
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateTrip'
+      responses:
+        '200':
+          description: Trip updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Trip'
+    delete:
+      summary: Delete a trip
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Trip deleted
+
+components:
+  schemas:
+    Trip:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        type:
+          type: string
+          example: one-way
+        departure_airport_id:
+          type: integer
+          example: 1
+        arrival_airport_id:
+          type: integer
+          example: 2
+        departure_date:
+          type: string
+          example: 2024-06-01
+        return_date:
+          type: string
+          example: 2024-06-10
+        price:
+          type: number
+          format: float
+          example: 400.00
+        flights:
+          type: array
+          items:
+            $ref: '#/components/schemas/TripFlight'
+    UpdateTrip:
+      type: object
+      properties:
+        type:
+          type: string
+          example: round-trip
+        departure_airport_id:
+          type: integer
+          example: 1
+        arrival_airport_id:
+          type: integer
+          example: 2
+        departure_date:
+          type: string
+          example: 2024-06-01
+        return_date:
+          type: string
+          example: 2024-06-10
+        flights:
+          type: array
+          items:
+            $ref: '#/components/schemas/NewTripFlight'
+
+    TripFlight:
+      type: object
+      properties:
+        flight_id:
+          type: integer
+          example: 1
+        flight_date:
+          type: string
+          example: 2024-06-01
+
+    NewTripFlight:
+      type: object
+      required:
+        - flight_id
+        - flight_date
+      properties:
+        flight_id:
+          type: integer
+          example: 1
+        flight_date:
+          type: string
+          example: 2024-06-01
+       

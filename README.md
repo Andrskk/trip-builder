@@ -1,52 +1,189 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Trip Builder API
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Overview
 
-## Learning Laravel
+Trip Builder API is a back-end application built with the Laravel framework. It provides endpoints for managing airlines, airports, flights, and trips, allowing clients to search and book trips efficiently.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## Features
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+-   Manage airlines, airports, and flights.
+-   Create and manage trips (one-way, round-trip).
+-   JSON responses for all endpoints.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## Requirements
 
-## Laravel Sponsors
+-   PHP 7.4 or higher
+-   Composer
+-   MySQL
+-   Laravel 8.x
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+## Installation
 
-### Premium Partners
+1. **Clone the repository:**
 
--   **[Vehikl](https://vehikl.com/)**
--   **[Tighten Co.](https://tighten.co)**
--   **[WebReinvent](https://webreinvent.com/)**
--   **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
--   **[64 Robots](https://64robots.com)**
--   **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
--   **[Cyber-Duck](https://cyber-duck.co.uk)**
--   **[DevSquad](https://devsquad.com/hire-laravel-developers)**
--   **[Jump24](https://jump24.co.uk)**
--   **[Redberry](https://redberry.international/laravel/)**
--   **[Active Logic](https://activelogic.com)**
--   **[byte5](https://byte5.de)**
--   **[OP.GG](https://op.gg)**
+    ```bash
+    git clone https://github.com/Andrskk/trip-builder.git
+    cd trip-builder
+    ```
+
+2. **Install dependencies:**
+
+    ```bash
+    composer install
+    ```
+
+3. **Set up environment variables:**
+   Copy the `.env.example` file to `.env` and update the necessary environment variables.
+
+    ```bash
+    cp .env.example .env
+    nano .env
+    ```
+
+4. **Generate application key:**
+
+    ```bash
+    php artisan key:generate
+    ```
+
+5. **Run migrations:**
+
+    ```bash
+    php artisan migrate
+    ```
+
+6. **Seed the database (if applicable):**
+
+    ```bash
+    php artisan db:seed
+    ```
+
+7. **Serve the application:**
+    ```bash
+    php artisan serve
+    ```
+
+## API Endpoints
+
+### Airlines
+
+-   **List all airlines**
+
+    ```http
+    GET /api/airlines
+    ```
+
+-   **Create a new airline**
+    ```http
+    POST /api/airlines
+    ```
+    **Request Body:**
+    ```json
+    {
+        "name": "Air Canada",
+        "iata_code": "AC"
+    }
+    ```
+
+### Airports
+
+-   **List all airports**
+
+    ```http
+    GET /api/airports
+    ```
+
+-   **Create a new airport**
+    ```http
+    POST /api/airports
+    ```
+    **Request Body:**
+    ```json
+    {
+        "name": "Pierre Elliott Trudeau International",
+        "iata_code": "YUL",
+        "city": "Montreal",
+        "latitude": 45.4706,
+        "longitude": -73.7408,
+        "timezone": "America/Toronto",
+        "city_code": "YMQ"
+    }
+    ```
+
+### Flights
+
+-   **List all flights**
+
+    ```http
+    GET /api/flights
+    ```
+
+-   **Create a new flight**
+    ```http
+    POST /api/flights
+    ```
+    **Request Body:**
+    ```json
+    {
+        "airline_id": 1,
+        "flight_number": "AC301",
+        "departure_airport_id": 1,
+        "arrival_airport_id": 2,
+        "departure_time": "07:35",
+        "arrival_time": "10:05",
+        "price": 200.0
+    }
+    ```
+
+## Testing
+
+To test the API endpoints, you can use tools like Postman or cURL.
+
+### Using Postman
+
+1. **Create a new request**.
+2. **Set the request type** to `POST`.
+3. **Enter the endpoint URL**.
+4. **Set the headers**:
+    - Content-Type: application/json
+5. **Set the request body** with the required JSON data.
+6. **Send the request** and inspect the response.
+
+### Using cURL
+
+```bash
+curl -X POST https://api.yourdomain.com/api/flights \
+-H "Content-Type: application/json" \
+-d '{
+    "flight_number": "AA505",
+    "airline_id": 3,
+    "departure_airport_id": 3,
+    "arrival_airport_id": 4,
+    "departure_time": "09:00",
+    "arrival_time": "12:00",
+    "price": 250.00
+}'
+```
+
+## Deployment
+
+1. **Choose a hosting provider** (e.g., DigitalOcean, AWS, shared hosting).
+2. **Set up a server** and install necessary software (PHP, MySQL, Composer).
+3. **Clone the repository** to the server.
+4. **Set up environment variables** on the server.
+5. **Run migrations** and seed the database.
+6. **Set permissions** for storage and cache directories.
+7. **Configure the web server** (Apache or Nginx).
+8. **Restart the web server** to apply changes.
 
 ## Contributing
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+1. Fork the repository.
+2. Create a new branch (`git checkout -b feature-branch`).
+3. Make your changes and commit them (`git commit -m 'Add some feature'`).
+4. Push to the branch (`git push origin feature-branch`).
+5. Open a pull request.
 
 ## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
